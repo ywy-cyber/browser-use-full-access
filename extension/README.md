@@ -2,12 +2,8 @@
 
 # BellBridge — Browser Bridge Extension (maintainer notes)
 
-This directory holds a **from-scratch Chrome MV3 extension** that serves the workspace's
-standalone browser bridge (`scripts/bridge_server.py`, default `127.0.0.1:43189`).
-
-> **Zero bloodline with the old extensions**: none of the old "dsh browser assistant" /
-> "browser-lite" code, icons, manifest fields, or IDs is reused. The old extensions were
-> fully deleted on 2026-11-10.
+This directory holds the **BellBridge** Chrome MV3 extension. It serves the standalone bridge in
+`../scripts/bridge_server.py` (default `127.0.0.1:43189`).
 
 ## 1. Files
 

@@ -2,11 +2,8 @@
 
 # 铃铛浏览器桥（BellBridge）—— 扩展维护说明
 
-本目录是**从零实现的 Chrome MV3 扩展**，服务对象是本工作区的独立浏览器桥
-（`scripts/bridge_server.py`，默认 `127.0.0.1:43189`）。
-
-> **与旧扩展零血缘**：不引用、不复制旧「dsh 浏览器助手 / browser-lite」的任何代码、
-> 图标、manifest 字段或 ID。旧扩展已于 2026-11-10 全部删除。
+本目录是 **BellBridge** Chrome MV3 扩展，服务对象是上一级的独立浏览器桥
+（`../scripts/bridge_server.py`，默认 `127.0.0.1:43189`）。
 
 ## 一、文件清单
 

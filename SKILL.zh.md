@@ -2,12 +2,12 @@
 
 ---
 name: browser-bridge
-description: 通过本机独立桥驱动用户日常 Chrome（保留全部登录态）：读取页面、点击、输入、按键、切换标签、执行 JS。需要在真实网页上操作（登录态、点击、填表、多标签）时使用；不要用 web_fetch / web_search 替代登录态页面与交互。
+description: 通过本地独立桥驱动用户日常 Chrome（保留全部登录态）：读取页面、点击、输入、按键、切换标签、执行 JS。需要在真实网页上操作（登录态、点击、填表、多标签）时使用；不要用 web_fetch / web_search 替代登录态页面与交互。
 ---
 
 # browser-bridge（浏览器桥）
 
-用用户自己正在使用的 Chrome（带登录态）干活。桥是一个本机常驻进程，Chrome 里装有「BellBridge」扩展；本 skill 通过 `scripts/browserctl.py` 这个唯一入口调用它。
+用用户自己正在使用的 Chrome（带登录态）干活。桥是一个本地常驻进程，Chrome 里装有「BellBridge」扩展；本 skill 通过 `scripts/browserctl.py` 这个唯一入口调用它。
 
 ## 一、什么时候用
 
@@ -73,14 +73,13 @@ python scripts/browserctl.py click   --tab <tabId> --index 7
 5. **受保护页面不能作为受控标签**：`chrome://`、扩展商店等无法控制；把标签切到普通 http/https 页面再试。
 6. **敏感操作先问用户**：涉及支付、删除、发布、授权等，先向用户确认，不要“顺手”点。
 
-## 五、与 DSH 原生工具的关系
+## 五、与 DSH 的关系
 
 - 本 skill 使用 **BellBridge** 扩展（`extension/`，ID
   `fifhbeebonknhkjmpmkngmceedkikdlg`）：固定连 `127.0.0.1:43189`，无侧边栏、无设置、无审批。
 - 做法借鉴 DSH 浏览器插件（用 Chrome 扩展拿到真实浏览器权限，由桥转发工具调用），但更轻量、
   更灵活：两个 JS 文件、零构建、固定 ID、独立 Python 桥、中英双语文档，最终作为一个独立 skill 分发。
-- 旧「dsh 浏览器助手」与 browser-lite 扩展已于 2026-11-10 全部删除，
-  **DSH 原生 `browser_*` 工具不再可用**；在 DSH 里做浏览器操作也走本 skill 的 CLI。
+- 如果同时使用 DSH 原生 `browser_*` 工具，它会走 DSH 自己的桥；两个扩展各连各的桥，可以并存。
 - 本 skill 的浏览器操作不依赖 DSH 是否运行。
 
 ## 六、安装（把一个目录放进各 AI 的 skills 目录）
@@ -93,10 +92,12 @@ python scripts/browserctl.py click   --tab <tabId> --index 7
 
 ```powershell
 # Windows：目录联接（不需要管理员）
-mklink /J "$env:USERPROFILE\.claude\skills\browser-use" "D:\agent\skills\browser-use"
-mklink /J "$env:USERPROFILE\.codex\skills\browser-use"  "D:\agent\skills\browser-use"
-mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "D:\agent\skills\browser-use"
+mklink /J "$env:USERPROFILE\.claude\skills\browser-use" "<path-to-this-repo>"
+mklink /J "$env:USERPROFILE\.codex\skills\browser-use"  "<path-to-this-repo>"
+mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "<path-to-this-repo>"
 ```
+
+把 `<path-to-this-repo>` 换成你克隆本仓库的绝对路径。
 
 - 各客户端对 skill 的加载方式略有差异，装完重启对应客户端。
 - DSH 的自定义 skill 加载方式尚未验证；DSH 内直接跑 `browserctl.py` 即可。
@@ -116,5 +117,5 @@ mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "D:\agent\skills\browser
 ## 八、安全
 
 - 桥只监听回环地址；HTTP 调用需要 `data/bridge-token` 里的令牌（CLI 自动读取）。
-- **带 `--tab` 的调用免审批直执行**（扩展的 full-access 行为）。这是能力也是风险：只操作明确要求的目标，敏感操作先问用户。
+- **带 `--tab` 的调用免审批直执行**（扩展的设计：显式 tabId 即跳过审批）。这是能力也是风险：只操作明确要求的目标，敏感操作先问用户。
 - 详细边界与推荐纪律见 `references/security.md`。

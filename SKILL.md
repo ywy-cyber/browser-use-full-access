@@ -84,7 +84,7 @@ indices, then `click --frame <n>` / `type --frame <n>`.
 6. **Ask before sensitive actions**: payment, deletion, publishing, authorization — confirm
    with the user instead of "just clicking".
 
-## 5. Relation to DSH native tools
+## 5. Relation to DSH
 
 - This skill uses the **BellBridge** extension (`extension/`, ID
   `fifhbeebonknhkjmpmkngmceedkikdlg`): fixed to `127.0.0.1:43189`, no side panel, no
@@ -92,9 +92,8 @@ indices, then `click --frame <n>` / `type --frame <n>`.
 - The design borrows from the DSH browser plugin (a Chrome extension holds the real browser
   permissions and a bridge forwards tool calls) but is lighter and more flexible: two JS files,
   zero build, pinned ID, standalone Python bridge, bilingual docs — shipped as an independent skill.
-- The old "dsh browser assistant" and browser-lite extensions were deleted on 2026-11-10;
-  **DSH native `browser_*` tools are no longer available**, so browser work inside DSH also
-  goes through this skill's CLI.
+- If DSH's native `browser_*` tools are used at the same time, they go through DSH's own bridge;
+  the two extensions each connect to their own bridge and can coexist.
 - This skill does not depend on DSH running.
 
 ## 6. Install (drop one directory into each AI's skills folder)
@@ -108,10 +107,12 @@ and `scripts/`). Link/copy it as `browser-bridge/` under each client's skills fo
 
 ```powershell
 # Windows: directory junction (no admin required)
-mklink /J "$env:USERPROFILE\.claude\skills\browser-use" "D:\agent\skills\browser-use"
-mklink /J "$env:USERPROFILE\.codex\skills\browser-use"  "D:\agent\skills\browser-use"
-mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "D:\agent\skills\browser-use"
+mklink /J "$env:USERPROFILE\.claude\skills\browser-use" "<path-to-this-repo>"
+mklink /J "$env:USERPROFILE\.codex\skills\browser-use"  "<path-to-this-repo>"
+mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "<path-to-this-repo>"
 ```
+
+Replace `<path-to-this-repo>` with the absolute path where you cloned this repository.
 
 - Each client loads skills slightly differently; restart the client after installing.
 - Custom skill loading in DSH is unverified; inside DSH just run `browserctl.py` directly.
@@ -133,7 +134,7 @@ mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "D:\agent\skills\browser
 
 - The bridge listens on loopback only; HTTP calls need the token in `data/bridge-token`
   (the CLI reads it automatically).
-- **Calls with `--tab` skip approval and execute directly** (the extension's full-access
-  behavior). That is both a capability and a risk: only act on explicitly requested
+- **Calls with `--tab` skip approval and execute directly** (the extension's design: an explicit
+  tabId skips approval). That is both a capability and a risk: only act on explicitly requested
   targets, and ask the user first for sensitive actions.
 - Detailed boundaries and recommended discipline: `references/security.md`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""独立浏览器桥：让任何 AI（不依赖 DSH 宿主）驱动用户日常 Chrome。
+"""独立浏览器桥：让任何 AI 驱动用户日常 Chrome。
 
 结构：
     Chrome 扩展 ──WebSocket──▶ 本进程（WS 服务端 + HTTP API）
@@ -9,7 +9,7 @@
                                    ├─ POST /call               调用一个工具（CLI 用）
                                    └─ POST /shutdown           优雅停止（CLI 用）
 
-协议与 DSH 插件 `@yuxianglin/dsh-bridge-browser` 完全一致：
+协议与浏览器扩展约定一致：
     hello / hello.ok / tool.call / tool.result / ping / pong / error
 
 安全：
@@ -66,7 +66,7 @@ logger = logging.getLogger("browser-bridge")
 
 
 # ---------------------------------------------------------------------------
-# 工具定义（与 DSH 插件 tools.ts 的 16 个工具保持一致）
+# 工具定义（16 个）
 # ---------------------------------------------------------------------------
 
 FRAME_PARAM = {
@@ -801,7 +801,7 @@ def existing_bridge_status(host: str, port: int) -> dict | None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Standalone browser bridge for the dsh Chrome extension.")
+    parser = argparse.ArgumentParser(description="Standalone browser bridge for the BellBridge Chrome extension.")
     parser.add_argument("--host", default=DEFAULT_HOST, help="bind address (loopback only by default)")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="HTTP/WebSocket port")
     parser.add_argument("--foreground", action="store_true", help="run in the foreground (default)")
