@@ -77,6 +77,8 @@ python scripts/browserctl.py click   --tab <tabId> --index 7
 
 - 本 skill 使用 **BellBridge** 扩展（`extension/`，ID
   `fifhbeebonknhkjmpmkngmceedkikdlg`）：固定连 `127.0.0.1:43189`，无侧边栏、无设置、无审批。
+- 做法借鉴 DSH 浏览器插件（用 Chrome 扩展拿到真实浏览器权限，由桥转发工具调用），但更轻量、
+  更灵活：两个 JS 文件、零构建、固定 ID、独立 Python 桥、中英双语文档，最终作为一个独立 skill 分发。
 - 旧「dsh 浏览器助手」与 browser-lite 扩展已于 2026-11-10 全部删除，
   **DSH 原生 `browser_*` 工具不再可用**；在 DSH 里做浏览器操作也走本 skill 的 CLI。
 - 本 skill 的浏览器操作不依赖 DSH 是否运行。

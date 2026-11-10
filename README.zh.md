@@ -197,6 +197,25 @@ Chrome（用户真实登录态）
                    └─ SKILL.md（通用 skill：何时用、铁律、安装、排障）
 ```
 
+**与 DeepSeek Harness 的关系**
+
+本仓库与 DeepSeek Harness 解耦：桥和扩展都是独立的，DSH 不启动也能用。
+
+本项目的做法借鉴了 DSH 浏览器插件的思路 —— 用 Chrome 扩展拿到用户真实浏览器的权限
+（`@yuxianglin/dsh-bridge-browser` + 「dsh 浏览器助手」扩展那一套：扩展连 WebSocket 桥，
+桥转发 `tool.call`），但在这套思路上做了轻量化与灵活化：
+
+- **轻量化**：去掉侧边栏、聊天、审批、设置、多语言包与构建链；扩展只剩两个 JS 文件
+  （`background.js` + `content.js`），零依赖、零构建，Chrome 直接加载。
+- **灵活化**：扩展 ID 用 manifest `key` 固定（不再随加载路径变化）；桥换成只依赖 Python
+  标准库的独立进程；对外只暴露 `browserctl.py` 一个入口；README/SKILL 中英双语；
+  任何能跑 shell 的 AI 都能用，DSH 不再是前置。
+- **最终形态**：一个独立 skill（本仓库），可单独分发、安装到各 AI 客户端的 skills 目录。
+
+如果同时使用 DSH 原生 `browser_*` 工具，它会走 DSH 自己的桥（宿主端口 + 19387 发现）；
+两个扩展各连各的桥，可以并存。注意：旧「dsh 浏览器助手」扩展已于 2026-11-10 删除，
+因此当前 DSH 原生 `browser_*` 不可用；若将来重新加载旧扩展，两者仍可并存。
+
 ### 11.2 文件清单
 
 | 文件 | 作用 |

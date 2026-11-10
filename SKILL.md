@@ -89,6 +89,9 @@ indices, then `click --frame <n>` / `type --frame <n>`.
 - This skill uses the **BellBridge** extension (`extension/`, ID
   `fifhbeebonknhkjmpmkngmceedkikdlg`): fixed to `127.0.0.1:43189`, no side panel, no
   settings, no approval.
+- The design borrows from the DSH browser plugin (a Chrome extension holds the real browser
+  permissions and a bridge forwards tool calls) but is lighter and more flexible: two JS files,
+  zero build, pinned ID, standalone Python bridge, bilingual docs — shipped as an independent skill.
 - The old "dsh browser assistant" and browser-lite extensions were deleted on 2026-11-10;
   **DSH native `browser_*` tools are no longer available**, so browser work inside DSH also
   goes through this skill's CLI.

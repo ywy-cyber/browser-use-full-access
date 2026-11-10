@@ -217,6 +217,31 @@ Chrome (user's real login state)
                    └─ SKILL.md (universal skill: when to use, rules, install, troubleshooting)
 ```
 
+**Relation to DeepSeek Harness**
+
+This repository is decoupled from DeepSeek Harness: the bridge and the extension are standalone,
+and everything works with DSH not running.
+
+The design borrows from the DSH browser plugin — using a Chrome extension to obtain the user's real
+browser permissions (`@yuxianglin/dsh-bridge-browser` + the "dsh browser assistant" extension: the
+extension connects to a WebSocket bridge, which forwards `tool.call` frames) — and then makes it
+lighter and more flexible:
+
+- **Lighter**: the side panel, chat, approval dialogs, settings, locale packs and build chain are
+  gone; the extension is two JS files (`background.js` + `content.js`), zero-dependency, zero-build,
+  loaded directly by Chrome.
+- **More flexible**: the extension ID is pinned with the manifest `key` (no longer derived from the
+  load path); the bridge is a standalone process depending only on the Python standard library;
+  the only public entry point is `browserctl.py`; README and SKILL are bilingual; any AI that can
+  run a shell can use it, and DSH is no longer a prerequisite.
+- **Final form**: a standalone skill (this repository) that can be distributed on its own and
+  installed into each AI client's skills directory.
+
+If the DSH native `browser_*` tools are used at the same time, they go through DSH's own bridge
+(host port + 19387 discovery); the two extensions each connect to their own bridge and can coexist.
+Note: the old "dsh browser assistant" extension was deleted on 2026-11-10, so DSH native
+`browser_*` is currently unavailable; if the old extension is re-loaded later, both can coexist.
+
 ### 11.2 Files
 
 | File | Purpose |
