@@ -307,6 +307,8 @@ mklink /J "$env:USERPROFILE\.codex\skills\browser-use"  "D:\agent\skills\browser
 mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "D:\agent\skills\browser-use"
 ```
 
+The source path above is the author's machine; replace it with wherever you cloned this repository.
+
 The prerequisite is Chrome having the **BellBridge** extension loaded (11.4). Client skill loading
 differs slightly; restart the client afterwards. Custom skill loading in DSH is unverified; inside
 DSH just run `browserctl.py` directly.

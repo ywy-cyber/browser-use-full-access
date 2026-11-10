@@ -284,8 +284,8 @@ mklink /J "$env:USERPROFILE\.codex\skills\browser-use"  "D:\agent\skills\browser
 mklink /J "$env:USERPROFILE\.cursor\skills\browser-use" "D:\agent\skills\browser-use"
 ```
 
-前提是 Chrome 已加载 **BellBridge** 扩展（见 11.4）。各客户端对 skill 的加载方式略有差异，
-装完重启对应客户端。DSH 的自定义 skill 加载方式尚未验证；DSH 内直接跑 `browserctl.py` 即可。
+上面的源路径是本机示例，换成你自己克隆本仓库的位置。前提是 Chrome 已加载 **BellBridge** 扩展（见 11.4）。
+各客户端对 skill 的加载方式略有差异，装完重启对应客户端。DSH 的自定义 skill 加载方式尚未验证；DSH 内直接跑 `browserctl.py` 即可。
 
 ### 11.7 维护扩展
 
