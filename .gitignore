@@ -1,6 +1,10 @@
-node_modules/
-*.log
-.DS_Store
+# Runtime data (token, pid, logs) — never commit
+data/
+.private/
+
+# Python
 __pycache__/
-*.pyc
-skill/data/
+*.py[cod]
+
+# Logs
+*.log

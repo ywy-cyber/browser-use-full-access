@@ -1,27 +1,45 @@
 {
   "manifest_version": 3,
-  "name": "Browser Use Full Access",
-  "description": "A minimal Chrome extension that lets an AI agent drive your own browser through a local bridge, with a top-of-page action toast.",
-  "version": "0.1.0",
-  "default_locale": "en",
+  "name": "BellBridge",
+  "description": "Local browser bridge for AI agents: read and operate your real Chrome pages with your login state intact.",
+  "version": "1.0.0",
   "minimum_chrome_version": "116",
-  "permissions": ["tabs", "scripting"],
-  "host_permissions": ["http://*/*", "https://*/*"],
-  "background": { "service_worker": "background.js", "type": "module" },
-  "content_scripts": [{
-    "matches": ["http://*/*", "https://*/*"],
-    "js": ["content.js"],
-    "run_at": "document_idle",
-    "all_frames": true,
-    "match_origin_as_fallback": true
-  }],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqm/iS4t0gfeaQf5s81hZPyPp1dNbeAx8tmOy4QJz0dzab9eWAolcwjSFaKeGSWrsnc9IJlHqY9P2VRPwbwT+rmXPujBwBGd4Y6SBLZ4/YUgiRJwWY6tTRGBXXe4desSkJeJHtH/G1UiezWl/9Khdr1TSX4AvAI2EhZFsCc2PvRCbnjX4YgJXP5VBeYPEevI/ye3ixsddN+DHc6OXNvawODE57l27Jnj5wnsXHe9g3RK/i8gxRkj8OAqKtHbrND0cU6f9VFGDIGP4zVgWlviyVXI1RDF4VGQW//HCtC7kabDg607pGh92WYwg6mrYilL7QwfXdG+VJBgdaRPWOxRmPQIDAQAB",
+  "permissions": [
+    "tabs",
+    "scripting",
+    "debugger",
+    "alarms"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true,
+      "match_origin_as_fallback": true
+    }
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; connect-src ws://127.0.0.1:* http://127.0.0.1:*"
   },
   "icons": {
-    "16": "assets/icons/icon16.png",
-    "32": "assets/icons/icon32.png",
-    "48": "assets/icons/icon48.png",
-    "128": "assets/icons/icon128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
